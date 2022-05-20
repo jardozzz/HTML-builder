@@ -52,13 +52,15 @@ async function createHTML(){
   const  htmlpath=path.join(dist,'index.html');
   await fs.promises.copyFile(path.join(__dirname,'template.html'),htmlpath);
   let teamplate=await fs.promises.readFile(htmlpath,'utf-8');
-  let header=  await fs.promises.readFile(path.join(html_crap,'header.html'),'utf-8');
-  let footer= await fs.promises.readFile(path.join(html_crap,'footer.html'),'utf-8');
-  let  article=await fs.promises.readFile(path.join(html_crap,'articles.html'),'utf-8');
-  const replaceheader=teamplate.replace('{{header}}',header).replace('{{footer}}',footer).replace('{{articles}}',article);
-  
-  await fs.promises.writeFile(htmlpath, replaceheader);
-  console.log(article);
+  const regexp=/\{{2}.{1,20}\}{2}/g;
+  const q=[...teamplate.matchAll(regexp)];
+  for (let i of q){
+    i[1]=await fs.promises.readFile(path.join(html_crap,(i[0].slice(2,-2)+'.html')));
+    teamplate=teamplate.replace(i[0],i[1]);
+
+  }
+  await fs.promises.writeFile(htmlpath, teamplate);
+
 
 }
 createHTML();
