@@ -3,7 +3,7 @@ const path=require('path');
 const src=path.join(__dirname,'files/');
 const dest=path.join(__dirname, 'files-copy');
 function copy(e,q){
-  fs.promises.rmdir( q,{ recursive: true },{ force: true }).then(()=>fs.promises.mkdir(q,
+  fs.promises.rm( q,{ recursive: true,force:true }).then(()=>fs.promises.mkdir(q,
     { recursive: true }).catch(err => {
     console.log(err);
   })).then(()=>fs.promises.readdir(e)).catch(err => {

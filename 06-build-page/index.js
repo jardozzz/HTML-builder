@@ -25,7 +25,7 @@ async function bundle(){
     }
   });}
 function copy(e,q){
-  fs.promises.rmdir( q,{ recursive: true },{ force: true }).then(()=>fs.promises.mkdir(q,
+  fs.promises.rm( q,{ recursive: true ,force: true }).then(()=>fs.promises.mkdir(q,
     { recursive: true }).catch(err => {
     console.log(err);
   })).then(()=>fs.promises.readdir(e)).catch(err => {
@@ -45,7 +45,7 @@ function copy(e,q){
           
     }});}
 async function createHTML(){
-  await fs.promises.rmdir( dist,{ recursive: true },{ force: true });
+  await fs.promises.rm( dist,{ recursive: true,force: true });
   await fs.promises.mkdir(dist,{ recursive: true });
   await copy(src_asset,dest_assets);
   await bundle();
